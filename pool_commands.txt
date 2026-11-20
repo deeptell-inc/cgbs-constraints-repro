@@ -1,0 +1,26 @@
+finer_bins.py --pool 10
+finer_bins.py --pool 12
+finer_bins.py --pool 14
+finer_bins.py --pool 16
+finer_bins.py --pool 6
+finer_bins.py --pool 8
+flatness.py --pool 3 9
+flatness.py --pool 4 16
+flatness.py --pool 5 25
+flatness.py --pool 6 12
+flatness.py --pool 6 36
+flatness.py --pool 7 14
+flatness.py --pool 8 16
+quad_stats.py --pool 3 9
+quad_stats.py --pool 4 16
+quad_stats.py --pool 4 8
+quad_stats.py --pool 5 10
+quad_stats.py --pool 5 25
+quad_stats.py --pool 6 12
+quad_stats.py --pool 6 36
+quad_stats.py --pool 7 14
+quad_stats.py --pool 8 16
+flatness.py --reward-pool 4 16 4 100
+flatness.py --reward-pool 5 25 4 100
+flatness.py --reward-pool 6 36 16 100
+flatness.py --reward-pool 6 36 4 100

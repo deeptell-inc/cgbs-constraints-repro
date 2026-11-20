@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: >-
+  If you use this repository, please cite it as below, and cite the
+  paper for the results.
+title: "cgbs-constraints-repro: reproduction repository for signal and
+  interference constraints on cryptographic uses of coarse-grained boson
+  sampling"
+type: software
+authors:
+  - family-names: Wakaura
+    given-names: Hikaru
+    affiliation: QIRI (Quantum Integrated Research Institute Inc.)
+    email: h.wakaura@qiri.co.jp
+version: 1.0.0
+date-released: 2026-11-13
+license: MIT
+references:
+  - type: article
+    title: "Signal and interference constraints on cryptographic uses of
+      coarse-grained boson sampling"
+    authors:
+      - family-names: Wakaura
+        given-names: Hikaru
+    year: 2026
+    notes: "manuscript in preparation"
