@@ -70,7 +70,8 @@ def flat_row(n, m, acc, d=4):
     K = math.comb(m + n - 1, n)
     S2, lex, rnd, var_emp, var_th = acc.mean(0)
     row = dict(n=n, m=m, K=K, d=d, n_u=len(acc), S2_times_K=float(S2 * K), S2_times_K_sem=float(acc[:, 0].std() * K / math.sqrt(len(acc))),
-               dev_lex=float(lex), dev_rnd=float(rnd), var_ratio=float(var_emp / var_th))
+               dev_lex=float(lex), dev_rnd=float(rnd), var_ratio=float(var_emp / var_th),
+               dev_lex_sem=float(acc[:, 1].std() / math.sqrt(len(acc))), dev_rnd_sem=float(acc[:, 2].std() / math.sqrt(len(acc))))
     print(f"{n:2d} {m:3d} {K:8d}  n_u={len(acc):3d}  K*sum p^2={row['S2_times_K']:6.3f}±{row['S2_times_K_sem']:.3f} (n+1={n + 1})  "
           f"lex={row['dev_lex']:.4f}  rnd={row['dev_rnd']:.5f}  Var emp/theory={row['var_ratio']:.3f}", flush=True)
     return row

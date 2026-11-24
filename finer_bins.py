@@ -166,10 +166,13 @@ def measure(n, m, n_u, d_fine, n_mean=1000, raw=None):
         pb, pd, wb, wd = col(PB), col(PD), col(wB), col(wD)
         rb, rd = pb / wb - 1, pd / wd - 1
         inter = (pb - wb) - (pd - wd)
+        a_u, b_u = (inter ** 2).mean(1), ((pb - wb) ** 2).mean(1)      # per interferometer; inter_frac^2 = mean(a_u) / mean(b_u)
+        frac = math.sqrt(a_u.mean() / b_u.mean())
         rank = np.array([(np.argsort(-rd[u]) == rb[u].argmax()).argmax() for u in range(n_u)])   # classical rank of true MPB
         row = dict(n=n, m=m, d_target=d, d=len(g), n_u=n_u,
                    rel=float(abs(rb).max(1).mean()),
                    inter_frac=float(np.sqrt((inter ** 2).mean() / ((pb - wb) ** 2).mean())),
+                   inter_sem=float((a_u - frac ** 2 * b_u).std() / (math.sqrt(n_u) * b_u.mean() * 2 * frac)),   # delta method
                    corr=float(np.corrcoef(rb.ravel(), rd.ravel())[0, 1]),
                    mpb_same=float((rank == 0).mean()), mpb_sem=float((rank == 0).std() / math.sqrt(n_u)),
                    mpb_top3=float((rank < 3).mean()), mpb_top1pct=float((rank < max(1, len(g) // 100)).mean()))
@@ -189,11 +192,12 @@ if __name__ == '__main__':
         rng.bit_generator.state = np.random.default_rng(seed).bit_generator.state
         PB, PD = sample(n, n * n, n_u, n ** 3)
         np.savez(f'results/finer_raw_n{n}_s{seed}.npz', PB=PB, PD=PD)
-    elif '--pool' in sys.argv:     # python finer_bins.py --pool N: replace the rows of size N by the pooled batches
+    elif '--pool' in sys.argv:     # python finer_bins.py --pool N [N_MEAN]: replace the rows of size N by the pooled batches
         n = int(sys.argv[2])
         raw = [np.load(f) for f in sorted(glob.glob(f'results/finer_raw_n{n}_s*.npz'))]
         rng.bit_generator.state = np.random.default_rng(n).bit_generator.state
-        new = measure(n, n * n, None, n ** 3, raw=tuple(np.concatenate([r[k] for r in raw]) for k in ('PB', 'PD')))
+        new = measure(n, n * n, None, n ** 3, n_mean=int(sys.argv[3]) if len(sys.argv) > 3 else 1000,   # N_MEAN: size of the distinguishable Haar sample
+                      raw=tuple(np.concatenate([r[k] for r in raw]) for k in ('PB', 'PD')))
         old = json.load(open('results/finer_bins.json')) if os.path.exists('results/finer_bins.json') else []
         rows = [r for r in old if r['n'] != n] + new
         json.dump(sorted(rows, key=lambda r: (r['n'], r['d'])), open('results/finer_bins.json', 'w'), indent=1)

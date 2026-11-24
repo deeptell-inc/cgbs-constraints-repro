@@ -93,7 +93,8 @@ def rows_from(n, m, acc):
         n_u = len(a)
         nv, sig, r1, r2, r3 = a.mean(0)
         rows.append(dict(n=n, m=m, n_u=n_u, stat=name, values=int(nv), signal=float(sig), sig_sem=float(a[:, 1].std() / np.sqrt(n_u)),
-                         res1=float(r1 / sig), res2=float(r2 / sig), res3=float(r3 / sig)))
+                         res1=float(r1 / sig), res2=float(r2 / sig), res3=float(r3 / sig),
+                         res3_sem=float((a[:, 4] - r3 / sig * a[:, 1]).std() / (np.sqrt(n_u) * sig))))   # delta method for a ratio of means
         print(f"{n:2d} {m:3d}  {name:38s} values={int(nv):3d}  signal TV={sig:.4f}  residual/signal after 1,2,3 moments: "
               f"{r1 / sig:.2f} {r2 / sig:.2f} {r3 / sig:.2f}", flush=True)
     return rows

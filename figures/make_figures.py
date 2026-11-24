@@ -36,10 +36,10 @@ def fig2():
     eps = d['reward'][0]['eps']
     fig, (a, b) = plt.subplots(1, 2, figsize=(7.0, 2.6), gridspec_kw={'width_ratios': [1.5, 1]})
     for mask, fill, tag in ((dilute, 'full', r'$M=N^2$'), (~dilute, 'none', r'$M=2N$')):
-        a.loglog(K[mask], [r['dev_lex'] for r, k in zip(rows, mask) if k], 's', color=RED, fillstyle=fill,
-                 label=f'lexicographic, {tag}')
-        a.loglog(K[mask], [r['dev_rnd'] for r, k in zip(rows, mask) if k], 'o', color=BLUE, fillstyle=fill,
-                 label=f'random permutation, {tag}')
+        for key, mk, col, lab in (('dev_lex', 's', RED, 'lexicographic'), ('dev_rnd', 'o', BLUE, 'random permutation')):
+            a.errorbar(K[mask], [r[key] for r, k in zip(rows, mask) if k], yerr=[r[key + '_sem'] for r, k in zip(rows, mask) if k],
+                       fmt=mk, color=col, fillstyle=fill, lw=0.6, capsize=1.5, label=f'{lab}, {tag}')
+    a.set_xscale('log'); a.set_yscale('log')
     o = np.argsort(K)
     a.loglog(K[o], rms[o], '--', color=BLUE, lw=0.8, label='r.m.s. from the lemma')
     a.axhline(eps, color=GREY, lw=0.6, ls=':')
@@ -78,7 +78,8 @@ def fig3():
               ('$d=M^{3/2}$', lambda r: r['d_target'] == r['n'] ** 3, RED, '^')]
     for lab, pick, col, mk in levels:
         rows = [r for r in fb if pick(r)]
-        b.plot([r['n'] for r in rows], [r['inter_frac'] for r in rows], mk + '-', color=col, label=lab, lw=0.6)
+        b.errorbar([r['n'] for r in rows], [r['inter_frac'] for r in rows], yerr=[r['inter_sem'] for r in rows], fmt=mk + '-',
+                   color=col, label=lab, lw=0.6, capsize=1.5)
     b.set_xlabel('photons $N$'); b.set_ylabel('interference / signal (r.m.s.)'); b.set_ylim(0, 0.5)
     b.set_xticks(range(6, 17, 2)); c.set_xticks(range(6, 17, 2))
     b.legend(fontsize=7, loc='lower left'); label(b, 'b')
@@ -86,8 +87,10 @@ def fig3():
     x = [r['n'] for r in fine]
     c.errorbar(x, [r['mpb_same'] for r in fine], yerr=[r['mpb_sem'] for r in fine], fmt='o-', color=BLUE, lw=0.6,
                capsize=1.5, label='same bin')
-    c.plot(x, [r['mpb_top3'] for r in fine], 's-', color=GREY, lw=0.6, label='top 3')
-    c.plot(x, [r['mpb_top1pct'] for r in fine], '^-', color=RED, lw=0.6, label='top 1%')
+    for key, mk, col, lab in (('mpb_top3', 's', GREY, 'top 3'), ('mpb_top1pct', '^', RED, 'top 1%')):
+        f = np.array([r[key] for r in fine])
+        c.errorbar(x, f, yerr=np.sqrt(f * (1 - f) / [r['n_u'] for r in fine]), fmt=mk + '-', color=col, lw=0.6,
+                   capsize=1.5, label=lab)   # binomial standard error
     c.plot(x, [1 / r['d'] for r in fine], ':', color='k', lw=0.8, label='chance, same bin')
     c.set_xlabel('photons $N$'); c.set_ylabel('product formula finds the MPB'); c.set_ylim(-0.03, 1.5)
     c.set_yticks([0, 0.5, 1]); c.legend(fontsize=7, loc='upper left', ncol=2, columnspacing=0.8); label(c, 'c')
@@ -120,7 +123,8 @@ def fig4():
         for stat in stats:
             lab, col, mk = names[stat]
             rows = pick(stat, dilute)
-            ax.plot([r['n'] for r in rows], [r['res3'] for r in rows], mk + '-', color=col, lw=0.6, label=lab)
+            ax.errorbar([r['n'] for r in rows], [r['res3'] for r in rows], yerr=[r['res3_sem'] for r in rows], fmt=mk + '-',
+                        color=col, lw=0.6, capsize=1.5, label=lab)
         ax.set_xlabel('photons $N$'); ax.set_ylim(0, 0.8)
         ax.set_xticks(sorted({r['n'] for r in pick('linear', dilute)}))
     b.set_ylabel('residual / signal, 3 moments'); label(b, 'b'); label(c, 'c')

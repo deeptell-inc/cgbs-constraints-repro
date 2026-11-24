@@ -97,7 +97,8 @@ only for `gbs_hash_classical.py`. The shipped data were produced with Python
   `m` modes, `K` outcomes, `d` bins, `n_u` interferometers) with the normalised
   collision probability `S2_times_K` and its standard error, the mean largest
   deviation of a bin probability from `1/d` under lexicographic order
-  (`dev_lex`) and under random permutations (`dev_rnd`), and the measured
+  (`dev_lex`) and under random permutations (`dev_rnd`) with their standard
+  errors over interferometers (`dev_lex_sem`, `dev_rnd_sem`), and the measured
   variance divided by the lemma (`var_ratio`). `reward` holds, per case, the
   fraction of trials in which an honest (`boson`) and a uniform miner are
   rewarded, with the range over interferometers.
@@ -106,12 +107,17 @@ only for `gbs_hash_classical.py`. The shipped data were produced with Python
   distinguishable particles (`dev_dist`), the fluctuation of their difference
   (`resid`), their correlation and the agreement of the most probable bin.
 - `results/finer_bins.json`: per size and bin number, the r.m.s. ratio of the
-  interference part to the signal (`inter_frac`) and the fractions of
+  interference part to the signal (`inter_frac`) with its standard error
+  (`inter_sem`, delta method over interferometers; it does not include the
+  finite sample of 1000 interferometers behind the distinguishable-particle
+  Haar mean, which raises `inter_frac` by 0.001 to 0.003, as
+  `python finer_bins.py --pool N 8000` run in a copy shows) and the fractions of
   interferometers for which the product formula ranks the true most probable
   bin first (`mpb_same`), in its top three and in its top 1%.
 - `results/quad_stats.json`: per size and statistic, the total variation
   distance from the Haar mean (`signal`) and the residual after matching one,
-  two and three moments, divided by the signal (`res1`, `res2`, `res3`).
+  two and three moments, divided by the signal (`res1`, `res2`, `res3`), with
+  the standard error of the last ratio (`res3_sem`, delta method).
 - `results/gbs_hash.json`: hash bits and wall-clock time per number of modes.
 
 `SHA256SUMS` lists the checksums of the files in `results/`.
