@@ -72,8 +72,10 @@ def measure(n, m, d, n_u):
     dB = bins(B) - w                                  # boson deviation from exact Haar mean
     dD = bins(D) - bins(D).mean(0)                    # distinguishable, centred empirically
     diff = bins(B) - bins(D)
+    sem = lambda x: float(x.std() / math.sqrt(n_u))   # standard error over interferometers
     row = dict(n=n, m=m, d=len(w), n_u=n_u, w_min=float(w.min()), w_max=float(w.max()),
-               dev=float(abs(dB).max(1).mean()), dev_sem=float(abs(dB).max(1).std() / math.sqrt(n_u)),
+               dev=float(abs(dB).max(1).mean()), dev_sem=sem(abs(dB).max(1)),
+               dev_dist_sem=sem(abs(dD).max(1)), resid_sem=sem(abs(diff - diff.mean(0)).max(1)),
                rel=float((abs(dB) / w).max(1).mean()),
                dev_dist=float(abs(dD).max(1).mean()),
                resid=float(abs(diff - diff.mean(0)).max(1).mean()),   # fluctuation of the interference part P_boson - P_dist

@@ -64,11 +64,13 @@ def fig3():
     for key, col, mk, lab in (('dev', BLUE, 'o', 'bosons'), ('dev_dist', GREY, 's', 'distinguishable'),
                               ('resid', RED, '^', 'interference part')):
         y = np.array([r[key] for r in sd])
-        a.loglog(n, y, mk, color=col, label=lab, fillstyle='none' if key == 'dev_dist' else 'full')
+        a.errorbar(n, y, yerr=[r[key + '_sem'] for r in sd], fmt=mk, color=col, label=lab, lw=0.6, capsize=1.5,
+                   fillstyle='none' if key == 'dev_dist' else 'full')
         s, _ = slope(n[n >= 8], y[n >= 8])
         if key != 'dev_dist':
-            a.loglog(n, y[-1] * (n / n[-1]) ** s, '-', color=col, lw=0.6)
+            a.plot(n, y[-1] * (n / n[-1]) ** s, '-', color=col, lw=0.6)   # log scales are set after the loop: errorbar on log axes widens the x range
             a.text(n[4], y[4] * 1.3, f'$N^{{{s:.2f}}}$', color=col)
+    a.set_xscale('log'); a.set_yscale('log')
     a.set_xlabel('photons $N$'); a.set_ylabel('deviation from Haar mean')
     a.set_xticks([4, 8, 16], ['4', '8', '16']); a.set_xticks([], minor=True)
     a.legend(fontsize=7, loc='lower left'); label(a, 'a')

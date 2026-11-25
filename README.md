@@ -105,7 +105,9 @@ only for `gbs_hash_classical.py`. The shipped data were produced with Python
 - `results/signal_decay.json`: per regime and size, the mean largest deviation
   of a bin probability from its Haar mean for bosons (`dev`) and for
   distinguishable particles (`dev_dist`), the fluctuation of their difference
-  (`resid`), their correlation and the agreement of the most probable bin.
+  (`resid`), each with its standard error over interferometers (`dev_sem`,
+  `dev_dist_sem`, `resid_sem`), their correlation and the agreement of the
+  most probable bin.
 - `results/finer_bins.json`: per size and bin number, the r.m.s. ratio of the
   interference part to the signal (`inter_frac`) with its standard error
   (`inter_sem`, delta method over interferometers; it does not include the
