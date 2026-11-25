@@ -48,8 +48,9 @@ def fig2():
     a.set_ylim(3e-5, 0.3); a.legend(fontsize=7, loc='lower left'); label(a, 'a')
     rew = [r for r in d['reward'] if r['d'] == 4]
     x = np.arange(len(rew))
-    b.bar(x - 0.2, [r['random_perm']['uniform'] for r in rew], 0.4, color=BLUE, label='random permutation')
-    b.bar(x + 0.2, [r['lexicographic']['uniform'] for r in rew], 0.4, color=RED, label='lexicographic')
+    for key, dx, col, lab in (('random_perm', -0.2, BLUE, 'random permutation'), ('lexicographic', 0.2, RED, 'lexicographic')):
+        b.bar(x + dx, [r[key]['uniform'] for r in rew], 0.4, color=col, label=lab, error_kw=dict(lw=0.6, capsize=1.5),
+              yerr=[r[key]['uniform_sem'] or np.nan for r in rew])   # no bar where every trial gave the same outcome
     b.set_xticks(x, [f"$N={r['n']}$\n$M={r['m']}$" for r in rew])
     b.set_ylabel('uniform sampler rewarded'); b.set_ylim(0, 1.25); b.set_yticks([0, 0.5, 1])
     b.legend(fontsize=7, loc='upper right'); label(b, 'b')

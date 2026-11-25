@@ -112,12 +112,14 @@
     "boson": 1.0,
     "uniform": 0.06390000000000001,
     "uniform_min": 0.0,
-    "uniform_max": 0.12
+    "uniform_max": 0.12,
+    "uniform_sem": 0.0026263853487255065
    },
    "lexicographic": {
     "boson": 1.0,
     "uniform": 0.0,
-    "uniform_max": 0.0
+    "uniform_max": 0.0,
+    "uniform_sem": 0.0
    }
   },
   {
@@ -132,12 +134,14 @@
     "boson": 1.0,
     "uniform": 0.9155999999999999,
     "uniform_min": 0.77,
-    "uniform_max": 0.98
+    "uniform_max": 0.98,
+    "uniform_sem": 0.004539427276650657
    },
    "lexicographic": {
     "boson": 1.0,
     "uniform": 0.0,
-    "uniform_max": 0.0
+    "uniform_max": 0.0,
+    "uniform_sem": 0.0
    }
   },
   {
@@ -152,12 +156,14 @@
     "boson": 1.0,
     "uniform": 1.0,
     "uniform_min": 1.0,
-    "uniform_max": 1.0
+    "uniform_max": 1.0,
+    "uniform_sem": 0.0
    },
    "lexicographic": {
     "boson": 1.0,
     "uniform": 0.0,
-    "uniform_max": 0.0
+    "uniform_max": 0.0,
+    "uniform_sem": 0.0
    }
   },
   {
@@ -172,12 +178,14 @@
     "boson": 1.0,
     "uniform": 0.9925999999999999,
     "uniform_min": 0.95,
-    "uniform_max": 1.0
+    "uniform_max": 1.0,
+    "uniform_sem": 0.0011191067866830233
    },
    "lexicographic": {
     "boson": 1.0,
     "uniform": 0.0,
-    "uniform_max": 0.0
+    "uniform_max": 0.0,
+    "uniform_sem": 0.0
    }
   }
  ]

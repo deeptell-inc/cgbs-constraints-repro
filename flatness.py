@@ -109,10 +109,12 @@ def reward_sample(n, m, d, n_u, trials):
 
 def reward_row(n, m, d, cnt, trials):
     f = cnt / trials                                   # per interferometer
+    sem = lambda x: float(x.std() / math.sqrt(len(x)))   # standard error over interferometers
     out = dict(n=n, m=m, d=d, eps=(0.05 / d) ** 1.25, n_tot=int(1.8e5 * d ** 3.5), n_u=len(cnt), trials=trials,
                random_perm=dict(boson=float(f[:, 0].mean()), uniform=float(f[:, 1].mean()),
-                                uniform_min=float(f[:, 1].min()), uniform_max=float(f[:, 1].max())),
-               lexicographic=dict(boson=float(f[:, 2].mean()), uniform=float(f[:, 3].mean()), uniform_max=float(f[:, 3].max())))
+                                uniform_min=float(f[:, 1].min()), uniform_max=float(f[:, 1].max()), uniform_sem=sem(f[:, 1])),
+               lexicographic=dict(boson=float(f[:, 2].mean()), uniform=float(f[:, 3].mean()), uniform_max=float(f[:, 3].max()),
+                                  uniform_sem=sem(f[:, 3])))
     r, l = out['random_perm'], out['lexicographic']
     print(f"n={n} m={m} d={d} eps={out['eps']:.1e} {len(cnt)} interferometers x {trials} trials  random permutation: honest {r['boson']:.3f}, "
           f"uniform {r['uniform']:.3f} [{r['uniform_min']:.2f}, {r['uniform_max']:.2f}]   lexicographic: honest {l['boson']:.3f}, "

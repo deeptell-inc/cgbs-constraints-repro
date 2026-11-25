@@ -101,7 +101,8 @@ only for `gbs_hash_classical.py`. The shipped data were produced with Python
   errors over interferometers (`dev_lex_sem`, `dev_rnd_sem`), and the measured
   variance divided by the lemma (`var_ratio`). `reward` holds, per case, the
   fraction of trials in which an honest (`boson`) and a uniform miner are
-  rewarded, with the range over interferometers.
+  rewarded, with the range and the standard error (`uniform_sem`) over
+  interferometers.
 - `results/signal_decay.json`: per regime and size, the mean largest deviation
   of a bin probability from its Haar mean for bosons (`dev`) and for
   distinguishable particles (`dev_dist`), the fluctuation of their difference
