@@ -12,7 +12,8 @@ authors:
     affiliation: QIRI (Quantum Integrated Research Institute Inc.)
     email: h.wakaura@qiri.co.jp
 version: 1.0.0
-date-released: 2026-11-13
+date-released: 2026-11-25
+repository-code: "https://github.com/deeptell-inc/cgbs-constraints-repro"
 license: MIT
 references:
   - type: article
